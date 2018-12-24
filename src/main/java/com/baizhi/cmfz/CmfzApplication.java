@@ -9,6 +9,9 @@ import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import tk.mybatis.spring.annotation.MapperScan;
+import tk.mybatis.spring.mapper.MapperScannerConfigurer;
+
+import java.util.Properties;
 
 @SpringBootApplication
 @MapperScan("com.baizhi.cmfz.mapper")

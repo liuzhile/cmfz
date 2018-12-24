@@ -1,7 +1,5 @@
 package com.baizhi.cmfz.service;
-
 import com.baizhi.cmfz.entity.Banner;
-
 import java.util.List;
 
 public interface BannerService {

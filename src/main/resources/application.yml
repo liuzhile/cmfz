@@ -4,6 +4,8 @@ server:
   jsp-servlet:
     init-parameters:
       development: true
+  tomcat:
+    uri-encoding: UTF-8
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -15,6 +17,14 @@ spring:
     view:
       suffix: .jsp
       prefix: /
+  http:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
 mybatis:
   mapper-locations: classpath:com/baizhi/cmfz/mapper/*Mapper.xml
   type-aliases-package: com.baizhi.cmfz.entity

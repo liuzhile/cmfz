@@ -66,8 +66,7 @@
     </div>   
        
     <div data-options="region:'west',title:'导航菜单',split:true" style="width:220px;">
-    	<div id="menuAccordion" class="easyui-accordion" data-options="fit:true">
-		</div>
+    	<div id="menuAccordion" class="easyui-accordion" data-options="fit:true"></div>
     </div>   
     <div data-options="region:'center'">
     	<div id="menuTabs" class="easyui-tabs" data-options="fit:true,narrow:true,pill:true">

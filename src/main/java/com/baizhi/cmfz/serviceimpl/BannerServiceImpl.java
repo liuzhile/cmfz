@@ -1,5 +1,6 @@
 package com.baizhi.cmfz.serviceimpl;
 
+import com.baizhi.cmfz.dto.BannerPageDto;
 import com.baizhi.cmfz.entity.Banner;
 import com.baizhi.cmfz.mapper.BannerMapper;
 import com.baizhi.cmfz.service.BannerService;

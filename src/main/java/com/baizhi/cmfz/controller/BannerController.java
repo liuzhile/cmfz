@@ -2,6 +2,7 @@ package com.baizhi.cmfz.controller;
 
 import com.baizhi.cmfz.entity.Banner;
 import com.baizhi.cmfz.service.BannerService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,8 @@ public class BannerController {
     @Autowired
     private BannerService bannerService;
     @RequestMapping("show")
-    public List<Banner> queryAll(){
+    public List<Banner> queryAll(Integer page, Integer rows){
+        PageHelper.startPage(page,rows,true);
         return bannerService.queryAll();
     }
     @RequestMapping("add")
