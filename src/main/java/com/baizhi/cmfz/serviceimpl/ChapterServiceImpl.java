@@ -19,12 +19,13 @@ public class ChapterServiceImpl implements ChapterService {
     @Autowired
     private AlbumMapper albumMapper;
     @Override
-    public void add(Chapter chapter,Integer aid) {
+    public void add(Chapter chapter) {
         chapter.setId(getUUID());
         chapterMapper.insert(chapter);
-        Album album = albumMapper.selectByPrimaryKey(aid);
+        Integer albumId = chapter.getAlbumId();
+        Album album = albumMapper.selectByPrimaryKey(albumId);
         album.setCount(album.getCount()+1);
-        albumMapper.insert(album);
+        albumMapper.updateByPrimaryKey(album);
     }
     public String getUUID(){
         String code = UUID.randomUUID().toString().replace("-", "");

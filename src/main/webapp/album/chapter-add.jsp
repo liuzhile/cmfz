@@ -9,12 +9,6 @@
             required:true,
             editable:false
         });
-        $("#chapterFieldSize").textbox({
-            required:true
-        });
-        $("#chapterFieldDuration").textbox({
-            required:true
-        });
         $("#chapterUploadAudio").filebox({
             required:true,
             buttonText:"选择文件",
@@ -47,14 +41,6 @@
         <tr>
             <td>音频名:</td>
             <td><input id="chapterFieldTitle" name="title"/></td>
-        </tr>
-        <tr>
-            <td>音频大小:</td>
-            <td><input id="chapterFieldSize" name="size"/></td>
-        </tr>
-        <tr>
-            <td>音频时长:</td>
-            <td><input id="chapterFieldDuration" name="duration"/></td>
         </tr>
         <tr>
             <td>上传时间:</td>

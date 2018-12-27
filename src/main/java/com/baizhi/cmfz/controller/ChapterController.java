@@ -2,6 +2,8 @@ package com.baizhi.cmfz.controller;
 
 import com.baizhi.cmfz.entity.Chapter;
 import com.baizhi.cmfz.service.ChapterService;
+import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.MultimediaInfo;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,24 +23,62 @@ public class ChapterController {
     @Autowired
     private ChapterService chapterService;
     @RequestMapping("add")
-    public void add(HttpSession session, MultipartFile audio,Chapter chapter, Integer aid) throws IOException {
+    public void add(HttpSession session, MultipartFile audio,Chapter chapter, Integer aid) {
         String realPath = session.getServletContext().getRealPath("/album/audio");
         File file = new File(realPath+"/"+audio.getOriginalFilename());
-        audio.transferTo(file);
+        try {
+            audio.transferTo(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String url = "/album/audio/"+audio.getOriginalFilename();
         chapter.setUrl(url);
         chapter.setAlbumId(aid);
-        chapterService.add(chapter,aid);
+        long size = audio.getSize();
+        chapter.setSize(size/(1000*1000)+"M");
+        Encoder encoder = new Encoder();
+        try {
+            MultimediaInfo m = encoder.getInfo(file);
+            long ls = m.getDuration();
+            int min = (int) (ls/1000/60);
+            int second = (int) ((ls/1000)%60);
+            String duration = min+"分"+second+"秒";
+            chapter.setDuration(duration);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        chapterService.add(chapter);
     }
     @RequestMapping(value = "download",produces="text/plain;charset=UTF-8")
-    public void download(HttpSession session, String name, HttpServletResponse response) throws IOException {
+    public void download(HttpSession session, String name, HttpServletResponse response) {
         String realPath = session.getServletContext().getRealPath("/album/audio");
         String[] realName = name.split("/");
-        byte[] bs = FileUtils.readFileToByteArray(new File(realPath+"/"+realName[3]));
-        response.setHeader("Content-Disposition","attachment;filename="+ URLEncoder.encode(realName[3],"UTF-8"));
-        ServletOutputStream out = response.getOutputStream();
-        out.write(bs);
-        if(out!=null) out.flush();
-        if(out!=null) out.close();
+        byte[] bs ;
+        ServletOutputStream out = null;
+        try {
+            bs = FileUtils.readFileToByteArray(new File(realPath+"/"+realName[3]));
+            response.setContentType("audio/mpeg");
+            response.setHeader("Content-Disposition","attachment;filename="+ URLEncoder.encode(realName[3],"UTF-8"));
+            out= response.getOutputStream();
+            out.write(bs);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            if(out!=null) {
+                try {
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(out!=null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

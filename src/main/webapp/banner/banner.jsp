@@ -56,7 +56,7 @@
             fitColumns:true,
             fit:true,
             pagination:true,
-            pageSize:3,
+            pageSize:5,
             pageList:[3,4,5],
             toolbar:toolbar,
             view: detailview,
